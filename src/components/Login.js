@@ -14,7 +14,7 @@ function Login() {
   };
 
   const handlesubmit = async () => {
-    const response = await fetch("https://script-backend.vercel.app/auth/login", {
+    const response = await fetch("https://secret-script-backend.vercel.app/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

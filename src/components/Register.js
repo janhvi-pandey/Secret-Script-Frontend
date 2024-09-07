@@ -17,7 +17,7 @@ function Register() {
 
   const handlesubmit = async () => {
     try {
-       const response = await fetch('https://script-backend.vercel.app/auth/register', {
+       const response = await fetch('https://secret-script-backend.vercel.app/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

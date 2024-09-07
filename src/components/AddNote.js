@@ -19,7 +19,7 @@ function AddNote() {
 
   const handleClick = async () => {
     try {
-      const response = await fetch("https://script-backend.vercel.app/notes/create", {
+      const response = await fetch("https://secret-script-backend.vercel.app/notes/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
