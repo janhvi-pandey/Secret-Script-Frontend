@@ -25,7 +25,7 @@ function Register() {
     });
     const data = await response.json();
     if (data.alreadyexist) {
-      alert("Email already exists");
+      alert("Email already exists 😉");
     } else {
       localStorage.setItem('token', data.token);
       navigate('/userprofile');
@@ -52,7 +52,7 @@ function Register() {
         }}
       >
         <h2 className="text-white text-center mb-4" style={{ color: "white" }}>
-          Register to Secret Script
+          Register to <span style={{ color: 'yellow' }}>Secret Script</span>
         </h2>
         <p className="text-white text-center mb-4">
           Create Your Secure Space for Thoughts and Creativity.

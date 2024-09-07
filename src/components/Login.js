@@ -22,11 +22,12 @@ function Login() {
       body: JSON.stringify(user),
     });
     const data = await response.json();
+    // console.log (data);
     if (!data.alreadyexist) {
-      alert("User does not exist");
+      alert("User does not exist 🤔");
     } else {
       if (data.user === null) {
-        alert("Password incorrect");
+        alert("Password incorrect 😒");
       } else {
         localStorage.setItem('token', data.token);
         navigate("/userprofile");
@@ -53,7 +54,7 @@ function Login() {
           width: "420px",
         }}
       >
-        <h2 className="text-white text-center mb-4">Login to Secret Script </h2>
+        <h2 className="text-white text-center mb-4">Login to <span style={{ color: 'yellow' }}>Secret Script</span> </h2>
         <p className="text-white text-center mb-4">
           Access Your Secure Space for Ideas and Insights.
         </p>

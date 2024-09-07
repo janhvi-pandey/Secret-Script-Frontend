@@ -8,6 +8,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Landpage from './components/Landpage';
+import AddNote from './components/AddNote';
+import Shownote from './components/Shownote';
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/landpage" element={<Landpage />} />
+        <Route path="/addnote" element={<AddNote />} />
+        <Route path="/shownotes" element={<Shownote />} />
+
       </Routes>
     </Router>
     </>

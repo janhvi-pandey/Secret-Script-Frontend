@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { FaRegFileAlt, FaRegCommentDots } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import backgroundImage from '../images/b.jpg'; 
 
 function AddNote() {
   const [note, setNote] = useState({
     title: "",
     description: "",
+    
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
+
+  
 
   const handleClick = async () => {
     try {
@@ -23,28 +29,62 @@ function AddNote() {
       });
 
       const data = await response.json();
+     
       
-      alert("Your Note is added 😉. Click on Retrieve Notes to access it")
+      if (data.msg==="Success") {
+        alert("Your Note is added 😉. Click on Unveil your thoughts to access it");
+      
+        navigate("/userprofile");
+      } else {
+        alert("Error adding note 🤔");
+      }
     } catch (error) {
       alert("Error adding note 🤔");
     }
   };
 
   return (
-    <div className="d-flex justify-content-start align-items-center mb-4 mt-5">
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: "100vh",
+        width: "100vw",
+        color: "#FFFFFF",
+        padding: "2rem",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        position: 'relative'
+      }}
+    >
+      <button 
+        className="btn btn-outline-light position-absolute"
+        style={{ top: "1rem", left: "1rem" }}
+        onClick={() => navigate('/userprofile')}
+      >
+        Back to Profile
+      </button>
+
       <div
         style={{
-       
-          width: '70%',
+          width: '80%',
+          maxWidth: '600px',
           padding: '2rem',
           borderRadius: '10px',
-          border: '1px solid #ddd',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          backgroundColor: '#212529',
-          color: 'white'
+          border: '1px solid #444',
+          backgroundColor: 'rgba(44, 44, 44, 0.6)', // Transparent background
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
         }}
       >
-        <h1 className="text-left mb-4" style={{ fontWeight: '400' }}>Add a Note</h1>
+        <h1 className="text-center mb-4" style={{ 
+          fontWeight: '700',
+          fontSize: '2.5rem',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
+          color: '#FFD700'
+        }}>Craft Your Script</h1>
         <form>
           <div className="mb-3">
             <div className="input-group">
@@ -54,7 +94,7 @@ function AddNote() {
               <input
                 type="text"
                 className="form-control bg-dark text-white"
-                style={{ border: '1px solid #ddd' }}
+                style={{ border: '1px solid #444' }}
                 placeholder='Title'
                 id="title"
                 name="title"
@@ -69,25 +109,34 @@ function AddNote() {
               <span className="input-group-text bg-dark text-white">
                 <FaRegCommentDots />
               </span>
-              <input
-                type="text"
+              <textarea
                 className="form-control bg-dark text-white"
-                style={{ border: '1px solid #ddd' }}
+                style={{ border: '1px solid #444' }}
                 placeholder='Description'
                 id="description"
                 name="description"
                 value={note.description}
                 onChange={handleChange}
                 required
-              />
+              ></textarea>
             </div>
           </div>
+          {/* <div className="form-check mb-3">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="starred"
+              checked={note.starred}
+              onChange={handleStarChange}
+            />
+            <label className="form-check-label" htmlFor="starred">Star this note</label>
+          </div> */}
           <button
             type="button"
             className="btn btn-outline-light w-100"
             onClick={handleClick}
           >
-            Add Note
+            Add Script
           </button>
         </form>
       </div>
