@@ -16,7 +16,8 @@ function Register() {
   };
 
   const handlesubmit = async () => {
-    const response = await fetch('https://script-backend.vercel.app/auth/register', {
+    try {
+       const response = await fetch('https://script-backend.vercel.app/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -30,6 +31,11 @@ function Register() {
       localStorage.setItem('token', data.token);
       navigate('/userprofile');
     }
+    } catch (error) {
+      alert("Error in registration")
+      
+    }
+   
   };
 
   return (
