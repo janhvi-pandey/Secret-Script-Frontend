@@ -22,7 +22,7 @@ function ShowNote() {
     }
 
     const fetchNotes = async () => {
-      const response = await fetch("http://localhost:8000/notes/getnotes", {
+      const response = await fetch("https://script-backend.vercel.app/notes/getnotes", {
         method: "GET",
         headers: { token, "Content-Type": "application/json" },
       });
@@ -44,7 +44,7 @@ function ShowNote() {
   // Handle saving edited note
   const handleSaveEdit = async () => {
     if (selectedNote) {
-      const response = await fetch(`http://localhost:8000/notes/editnote/${selectedNote._id}`, {
+      const response = await fetch(`https://script-backend.vercel.app/notes/editnote/${selectedNote._id}`, {
         method: "PUT",
         headers: {
           token,
@@ -73,13 +73,13 @@ function ShowNote() {
 
   // Handle deleting a note
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:8000/notes/deletenote/${id}`, {
+    await fetch(`https://script-backend.vercel.app/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: { token },
     });
 
     // Refresh notes after deletion
-    const response = await fetch("http://localhost:8000/notes/getnotes", {
+    const response = await fetch("https://script-backend.vercel.app/notes/getnotes", {
       method: "GET",
       headers: { token, "Content-Type": "application/json" },
     });

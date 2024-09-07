@@ -14,7 +14,7 @@ function UserProfile() {
     }
 
     const fetchUser = async () => {
-      const response = await fetch("http://localhost:8000/auth/userprofile", {
+      const response = await fetch("https://script-backend.vercel.app/auth/userprofile", {
         method: "GET",
         headers: { token, "Content-Type": "application/json" },
       });
