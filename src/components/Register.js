@@ -16,30 +16,35 @@ function Register() {
   };
 
   const handlesubmit = async () => {
+    // Check if all fields are filled
+    if (!user.name || !user.email || !user.password) {
+      alert("Please fill all details to access your secure space 😒");
+      return;
+    }
+  
     try {
-       const response = await fetch('https://secret-script-backend.vercel.app/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user),
-      credentials:'include',
-    });
-    const data = await response.json();
-    console.log(data);                       
-    
-    if (data.alreadyexist) {
-      alert("Email already exists 😉");
-    } else {
-      localStorage.setItem('token', data.token);
-      navigate('/userprofile');
-    }
+      const response = await fetch('https://secret-script-backend.vercel.app/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user),
+        credentials: 'include',
+      });
+      const data = await response.json();
+      console.log(data);
+  
+      if (data.alreadyexist) {
+        alert("Email already exists 😉");
+      } else {
+        localStorage.setItem('token', data.token);
+        navigate('/userprofile');
+      }
     } catch (error) {
-      alert("Error in registration")
-      
+      alert("Error in registration");
     }
-   
   };
+  
 
   return (
     <div

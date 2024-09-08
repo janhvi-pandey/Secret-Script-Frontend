@@ -56,7 +56,7 @@ function UserProfile() {
 
       <div className="container w-50 mt-5" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)", borderRadius: "10px", padding: "2rem" }}>
         <div className="text-center mb-5 mt-3">
-          <h1 className="mb-3">Welcome Back, <span style={{ color: 'yellow' }}>{user ? user.name : "Loading..."}</span> </h1>
+          <h1 className="mb-3">Welcome <span style={{ color: 'yellow' }}>{user ? user.name : "Loading..."}</span> </h1>
           <h2 className="mt-4">Your Thoughts Await!</h2>
           <p className="mb-4">Capture your ideas and reflect on your past notes.</p>
           <button className="btn btn-secondary me-2" onClick={handleAddThoughts}>Add Your Thoughts</button>
