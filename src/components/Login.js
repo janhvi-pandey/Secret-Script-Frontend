@@ -22,7 +22,6 @@ function Login() {
       body: JSON.stringify(user),
     });
     const data = await response.json();
-    // console.log (data);
     if (!data.alreadyexist) {
       alert("User does not exist 🤔");
     } else {
@@ -39,23 +38,27 @@ function Login() {
     <div
       style={{
         backgroundColor: "#212529",
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        padding: "1rem",  // Added padding for small screens
       }}
     >
       <div
         className="bg-dark"
         style={{
-          padding: "40px",
+          padding: "20px",
           borderRadius: "10px",
           boxShadow: "0 4px 15px rgba(255, 255, 255, 0.2)",
-          width: "420px",
+          width: "90%",  // Set width to 90% for small screens
+          maxWidth: "350px",  // Limit max width for larger screens
         }}
       >
-        <h2 className="text-white text-center mb-4">Login to <span style={{ color: 'yellow' }}>Secret Script</span> </h2>
-        <p className="text-white text-center mb-4">
+        <h2 className="text-white text-center mb-3" style={{ fontSize: '1.4rem' }}>
+          Sign In to <span style={{ color: 'yellow' }}>Secret Script</span>
+        </h2>
+        <p className="text-white text-center mb-4" style={{ fontSize: '0.85rem' }}>
           Access Your Secure Space for Ideas and Insights.
         </p>
 
@@ -82,6 +85,8 @@ function Login() {
               color: "white",
               border: "none",
               outline: "none",
+              fontSize: "0.9rem",  // Smaller font size for small screens
+              padding: "0.5rem",
             }}
           />
         </div>
@@ -109,6 +114,8 @@ function Login() {
               color: "white",
               border: "none",
               outline: "none",
+              fontSize: "0.9rem",  // Smaller font size for small screens
+              padding: "0.5rem",
             }}
           />
         </div>
@@ -121,16 +128,18 @@ function Login() {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
             color: "#000",
             border: "none",
+            fontSize: "0.9rem",  // Adjusted font size for small screens
+            padding: "0.6rem",
           }}
         >
-          Login
+          Sign In
         </button>
 
         {/* Catchy call to action */}
-        <p className="text-center" style={{ color: "white" }}>
+        <p className="text-center" style={{ color: "white", fontSize: '0.82rem' }}>
           Don’t have an account?{" "}
           <Link to="/register" style={{ color: "white", fontWeight: "bold" }}>
-            Register here
+           Sign Up Now 
           </Link>
         </p>
       </div>

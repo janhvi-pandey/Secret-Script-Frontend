@@ -6,7 +6,7 @@ function Register() {
   const [user, setUser] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
   });
 
   const navigate = useNavigate();
@@ -16,24 +16,22 @@ function Register() {
   };
 
   const handlesubmit = async () => {
-    // Check if all fields are filled
     if (!user.name || !user.email || !user.password) {
       alert("Please fill all details to access your secure space 😒");
       return;
     }
-  
+
     try {
       const response = await fetch('https://secret-script-backend.vercel.app/auth/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
         credentials: 'include',
       });
       const data = await response.json();
-      console.log(data);
-  
+
       if (data.alreadyexist) {
         alert("Email already exists 😉");
       } else {
@@ -44,36 +42,44 @@ function Register() {
       alert("Error in registration");
     }
   };
-  
 
   return (
     <div
       style={{
         backgroundColor: "#212529",
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        padding: "1rem",
       }}
     >
       <div
         className="bg-dark"
         style={{
-          padding: "40px",
+          padding: "15px", // Reduced padding for smaller height
           borderRadius: "10px",
           boxShadow: "0 4px 15px rgba(255, 255, 255, 0.2)",
-          width: "428px",
+          width: "90%",
+          maxWidth: "350px",
+          marginBottom: "10px", // Reduced margin bottom
         }}
       >
-        <h2 className="text-white text-center mb-4" style={{ color: "white" }}>
-          Register to <span style={{ color: 'yellow' }}>Secret Script</span>
+        <h2
+          className="text-white text-center mb-2"
+          style={{
+            fontSize: "1.3rem",  // Reduced font size
+            lineHeight: "1.2",   // Tightened line height
+          }}
+        >
+          Sign Up to <span style={{ color: 'yellow' }}>Secret Script</span>
         </h2>
-        <p className="text-white text-center mb-4">
+        <p className="text-white text-center mb-3" style={{ fontSize: "0.85rem" }}>
           Create Your Secure Space for Thoughts and Creativity.
         </p>
 
         {/* Name input with icon */}
-        <div className="input-group mb-3">
+        <div className="input-group mb-2">
           <span
             className="input-group-text"
             style={{
@@ -94,13 +100,14 @@ function Register() {
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               color: "white",
               border: "none",
-              outline: "none",
+              fontSize: "0.85rem",
+              padding: "0.4rem", // Reduced padding for smaller size
             }}
           />
         </div>
 
         {/* Email input with icon */}
-        <div className="input-group mb-3">
+        <div className="input-group mb-2">
           <span
             className="input-group-text"
             style={{
@@ -121,13 +128,14 @@ function Register() {
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               color: "white",
               border: "none",
-              outline: "none",
+              fontSize: "0.85rem",
+              padding: "0.4rem", // Reduced padding for smaller size
             }}
           />
         </div>
 
         {/* Password input with icon */}
-        <div className="input-group mb-3">
+        <div className="input-group mb-2">
           <span
             className="input-group-text"
             style={{
@@ -148,8 +156,8 @@ function Register() {
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               color: "white",
               border: "none",
-              outline: "none",
-               
+              fontSize: "0.85rem",
+              padding: "0.4rem", // Reduced padding for smaller size
             }}
           />
         </div>
@@ -162,16 +170,17 @@ function Register() {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
             color: "#000",
             border: "none",
+            fontSize: "0.9rem",
+            padding: "0.5rem", // Adjusted padding for smaller button
           }}
         >
-          Register
+          Sign Up
         </button>
 
-        
-        <p className="text-center" style={{ color: "white" }}>
+        <p className="text-center" style={{ color: "white", fontSize: "0.8rem" }}>
           Already have an account?{" "}
           <Link to="/login" style={{ color: "white", fontWeight: "bold" }}>
-            Login here
+            Sign In Here
           </Link>
         </p>
       </div>
