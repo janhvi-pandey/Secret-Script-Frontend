@@ -39,7 +39,7 @@ function UserProfile() {
   };
 
   return (
-    <div
+    <div 
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -51,6 +51,7 @@ function UserProfile() {
       }}
     >
       <header className="d-flex justify-content-between align-items-center mb-4">
+        
         <button className="btn btn-outline-light" onClick={handleLogout}>Logout</button>
       </header>
 
