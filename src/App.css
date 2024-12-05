@@ -7,6 +7,7 @@ input:focus {
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important; /* Adds a white shadow to match the border color */
 }
 textarea::placeholder{
-  color: rgba(255, 255, 255, 0.7) !important; /* Ensures visibility with a light color */
+  color: rgba(255, 255, 255, 0.7) !important;
+   /* Ensures visibility with a light color */
   opacity: 1;
 }

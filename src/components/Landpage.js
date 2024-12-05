@@ -4,13 +4,13 @@ import { FaLock, FaUserShield, FaBolt } from 'react-icons/fa';
 
 function Landpage() {
   return (
-    <div style={{ backgroundColor: '#000', color: '#fff', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#212529', color: '#fff', minHeight: '100vh' }}>
       
       {/* Welcome Section */}
       <div 
         className="container-fluid" 
         style={{ 
-          backgroundColor: 'rgba(0, 0, 0, 0.7)', 
+          backgroundColor: '#212529', 
           height: '100vh', 
           display: 'flex', 
           flexDirection: 'column', 
@@ -24,7 +24,7 @@ function Landpage() {
             className="display-3 fw-bold mb-4" 
             style={{ fontSize: 'calc(1.5rem + 2vw)' }}  // Responsive font size for h1
           >
-            Welcome to <span style={{ color: 'yellow' }}>Secret Script</span>
+            Welcome to <span style={{ color:'#f1c40f' }}>Secret Script</span>
           </h1>
           <h4 
             className="lead mb-3" 

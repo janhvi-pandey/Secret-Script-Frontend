@@ -55,8 +55,8 @@ function Login() {
           maxWidth: "350px",  // Limit max width for larger screens
         }}
       >
-        <h2 className="text-white text-center mb-3" style={{ fontSize: '1.4rem' }}>
-          Sign In to <span style={{ color: 'yellow' }}>Secret Script</span>
+        <h2 className=" text-center mb-3" style={{ fontSize: '1.4rem', color:'#f1c40f'  }}>
+          Sign In
         </h2>
         <p className="text-white text-center mb-4" style={{ fontSize: '0.85rem' }}>
           Access Your Secure Space for Ideas and Insights.
@@ -139,7 +139,7 @@ function Login() {
         <p className="text-center" style={{ color: "white", fontSize: '0.82rem' }}>
           Don’t have an account?{" "}
           <Link to="/register" style={{ color: "white", fontWeight: "bold" }}>
-           Sign Up Now 
+           SignUp Now 
           </Link>
         </p>
       </div>

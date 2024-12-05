@@ -66,16 +66,17 @@ function Register() {
         }}
       >
         <h2
-          className="text-white text-center mb-2"
+          className=" text-center mb-3"
           style={{
-            fontSize: "1.3rem",  // Reduced font size
-            lineHeight: "1.2",   // Tightened line height
+            fontSize: "1.4rem",  // Reduced font size
+            color:'#f1c40f'
+               // Tightened line height
           }}
         >
-          Sign Up to <span style={{ color: 'yellow' }}>Secret Script</span>
+          Sign Up 
         </h2>
         <p className="text-white text-center mb-3" style={{ fontSize: "0.85rem" }}>
-          Create Your Secure Space for Thoughts and Creativity.
+        Embrace Your Base for Ideas and Grace.
         </p>
 
         {/* Name input with icon */}
@@ -180,7 +181,7 @@ function Register() {
         <p className="text-center" style={{ color: "white", fontSize: "0.8rem" }}>
           Already have an account?{" "}
           <Link to="/login" style={{ color: "white", fontWeight: "bold" }}>
-            Sign In Here
+            SignIn Here
           </Link>
         </p>
       </div>
