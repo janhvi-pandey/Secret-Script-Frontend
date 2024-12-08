@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaLock, FaUserShield, FaBolt } from "react-icons/fa";
 
 function Landpage() {
+  useEffect(() => {
+    localStorage.removeItem("token");  // Remove the token if it's found
+    localStorage.removeItem("user");   // Remove the user data if it's found
+  }, []);
+  
   return (
     <div
-      style={{ backgroundColor: "#212529", color: "#fff", minHeight: "100vh" }}
+      style={{ backgroundColor: "#000", color: "#fff", minHeight: "100vh" }}
     >
       {/* Welcome Section */}
       <div
         className="container-fluid"
         style={{
-          backgroundColor: "#000",
           height: "100vh",
           display: "flex",
           flexDirection: "column",
@@ -94,8 +98,9 @@ function Landpage() {
           {/* Feature Card 1 */}
           <div className="col-md-4 text-center mb-4">
             <div
-              className="card bg-dark text-light border-light"
+              className="card  text-light "
               style={{
+                background: "linear-gradient(to bottom, #121212, #262626)",
                 borderRadius: "15px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
                 height: "100%",
@@ -125,8 +130,9 @@ function Landpage() {
           {/* Feature Card 2 */}
           <div className="col-md-4 text-center mb-4">
             <div
-              className="card bg-dark text-light border-light"
+              className="card text-light "
               style={{
+                background: "linear-gradient(to bottom, #121212, #262626)",
                 borderRadius: "15px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
                 height: "100%",
@@ -156,8 +162,9 @@ function Landpage() {
           {/* Feature Card 3 */}
           <div className="col-md-4 text-center mb-4">
             <div
-              className="card bg-dark text-light border-light"
+              className="card text-light "
               style={{
+                background: "linear-gradient(to bottom, #121212, #262626)",
                 borderRadius: "15px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
                 height: "100%",
@@ -188,9 +195,10 @@ function Landpage() {
       </div>
 
       {/* Footer Section */}
-      <footer className="bg-dark text-center text-light py-3">
+      <footer className=" text-center text-light py-3">
         <p
           style={{
+            
             marginTop: "2rem",
             fontSize: "calc(0.8rem + 0.3vw)", 
             color: "#fff",

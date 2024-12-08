@@ -46,7 +46,7 @@ function Register() {
   return (
     <div
       style={{
-        backgroundColor: "#212529",
+        backgroundColor: "#000",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -55,10 +55,11 @@ function Register() {
       }}
     >
       <div
-        className="bg-dark"
+       
         style={{
           padding: "15px",
           borderRadius: "10px",
+          background: "linear-gradient(to bottom, #121212, #262626)",
           boxShadow: "0 4px 15px rgba(255, 255, 255, 0.2)",
           width: "90%",
           maxWidth: "350px",
@@ -182,7 +183,7 @@ function Register() {
         <p className="text-center" style={{ color: "white", fontSize: "0.8rem" }}>
           Already have an account?{" "}
           <Link to="/login" style={{ color: "white", fontWeight: "bold" }}>
-            SignIn Here
+            Sign in Here
           </Link>
         </p>
       </div>

@@ -3,7 +3,6 @@ import styled, { keyframes } from "styled-components";
 import { MdMenuBook, MdFormatListBulletedAdd } from "react-icons/md";
 import { useNavigate } from "react-router";
 
-
 const pulse = keyframes`
   0% {
     transform: scale(0);
@@ -29,21 +28,19 @@ const Dot = styled.div`
   border-radius: 50%;
   animation: ${pulse} 1.5s infinite ease-in-out;
 
-  /* Customize the colors for each dot */
   &:nth-child(1) {
-    background-color: #ff6347;  /* Tomato red */
+    background-color: #ff6347;
     animation-delay: 0s;
   }
   &:nth-child(2) {
-    background-color: #1e90ff;  /* Dodger blue */
+    background-color: #1e90ff;
     animation-delay: 0.3s;
   }
   &:nth-child(3) {
-    background-color: #32cd32;  /* Lime green */
+    background-color: #32cd32;
     animation-delay: 0.6s;
   }
 `;
-
 
 const Container = styled.div`
   background-color: black;
@@ -164,11 +161,12 @@ const ActionButton = styled.button`
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loadingTimeout, setLoadingTimeout] = useState(false); 
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  // Greeting based on the time of day
   useEffect(() => {
     const currentTime = new Date().getHours();
     if (currentTime < 12) {
@@ -180,33 +178,41 @@ const UserProfile = () => {
     }
   }, []);
 
+  // Fetching user data from localStorage or API
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-      return;
-    }
-
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(
-          "https://secret-script-backend.vercel.app/auth/userprofile",
-          {
-            method: "GET",
-            headers: { token, "Content-Type": "application/json" },
-          }
-        );
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
+    // If token exists, fetch user data via API
+    if (token) {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(
+            "https://secret-script-backend.vercel.app/auth/userprofile",
+            {
+              method: "GET",
+              headers: { token, "Content-Type": "application/json" },
+            }
+          );
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUser();
+    } else {
+      // Check for user data in localStorage (Google login case)
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
         setLoading(false);
+      } else {
+        navigate("/");
       }
-    };
-
-    fetchUser();
+    }
   }, [token, navigate]);
 
+  // Timeout for loading state
   useEffect(() => {
     if (loading) {
       const timer = setTimeout(() => {
@@ -217,6 +223,7 @@ const UserProfile = () => {
     setLoadingTimeout(false);
   }, [loading]);
 
+ 
   const handleAddThoughts = () => navigate("/addnote");
   const handleShowNotes = () => navigate("/shownotes");
 
@@ -230,11 +237,10 @@ const UserProfile = () => {
           </p>
         ) : (
           <DotLoaderContainer>
-          <Dot />
-          <Dot />
-          <Dot />
-        </DotLoaderContainer>
-
+            <Dot />
+            <Dot />
+            <Dot />
+          </DotLoaderContainer>
         )}
       </Container>
     );
@@ -245,7 +251,7 @@ const UserProfile = () => {
       <Greeting>{greeting}</Greeting>
       <Username>{user?.name || "Guest"}</Username>
       <WelcomeMessage>
-        Welcome back! Your thoughts await
+        Welcome back! Your thoughts await.
         <Tagline>Capture your ideas and reflect on your past notes.</Tagline>
       </WelcomeMessage>
       <ActionContainer>
