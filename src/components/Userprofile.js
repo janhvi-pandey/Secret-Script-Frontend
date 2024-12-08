@@ -4,8 +4,6 @@ import { MdMenuBook, MdFormatListBulletedAdd } from "react-icons/md";
 import { useNavigate } from "react-router";
 
 
-
-// Animation for pulsing effect
 const pulse = keyframes`
   0% {
     transform: scale(0);
@@ -80,7 +78,7 @@ const Username = styled.h2`
   margin: 1rem 0;
 
   @media (max-width: 768px) {
-    font-size: 2.25rem;
+    font-size: 2.2rem;
     margin-top: 0;
   }
 `;
@@ -165,8 +163,8 @@ const ActionButton = styled.button`
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [loadingTimeout, setLoadingTimeout] = useState(false); // Manage long load times
+  const [loading, setLoading] = useState(true);
+  const [loadingTimeout, setLoadingTimeout] = useState(false); 
   const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -253,7 +251,7 @@ const UserProfile = () => {
       <ActionContainer>
         <ActionButton onClick={handleShowNotes}>
           <MdMenuBook />
-          <span>Show Notes</span>
+          <span>Unveil thoughts</span>
         </ActionButton>
         <ActionButton onClick={handleAddThoughts}>
           <MdFormatListBulletedAdd />

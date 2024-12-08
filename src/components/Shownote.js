@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { FaRegEdit,FaTimes } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { Modal, Button, Form } from "react-bootstrap";
-import { FaArrowLeft } from "react-icons/fa"; // For back arrow
+import { FaRegEdit, FaTimes, FaArrowLeft } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import styled from "styled-components";
 
-function ShowNote() {
+const ShowNote = () => {
   const [notes, setNotes] = useState([]);
-  const [selectedNote, setSelectedNote] = useState(null); // For editing selected note
-  const [showEditModal, setShowEditModal] = useState(false); // For modal visibility
-  const [updatedTitle, setUpdatedTitle] = useState(""); // Updated title
-  const [updatedDescription, setUpdatedDescription] = useState(""); // Updated description
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const [updatedDescription, setUpdatedDescription] = useState("");
+  const [error, setError] = useState("");
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [noteToDelete, setNoteToDelete] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // Fetch notes on component load
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -22,18 +24,37 @@ function ShowNote() {
     }
 
     const fetchNotes = async () => {
-      const response = await fetch("https://secret-script-backend.vercel.app/notes/getnotes", {
-        method: "GET",
-        headers: { token, "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      setNotes(data.notes);
+      try {
+        const response = await fetch(
+          "https://secret-script-backend.vercel.app/notes/getnotes",
+          {
+            method: "GET",
+            headers: { token, "Content-Type": "application/json" },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch notes");
+        }
+
+        const data = await response.json();
+        setNotes(data.notes);
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+        setError("Something went wrong. Please try again later.");
+      }
     };
 
     fetchNotes();
   }, [token, navigate]);
 
-  // Handle edit button click, open modal with selected note data
+  // Slice description
+  const sliceDescription = (description, maxLength = 50) => {
+    return description.length > maxLength
+      ? description.substring(0, maxLength) + "..."
+      : description;
+  };
+
   const handleEdit = (note) => {
     setSelectedNote(note);
     setUpdatedTitle(note.title);
@@ -41,20 +62,27 @@ function ShowNote() {
     setShowEditModal(true);
   };
 
-  // Handle saving edited note
   const handleSaveEdit = async () => {
+    if (!updatedTitle || !updatedDescription) {
+      setError("Both title and description are required.");
+      return;
+    }
+
     if (selectedNote) {
-      const response = await fetch(`https://secret-script-backend.vercel.app/notes/editnote/${selectedNote._id}`, {
-        method: "PUT",
-        headers: {
-          token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: updatedTitle,
-          description: updatedDescription,
-        }),
-      });
+      const response = await fetch(
+        `https://secret-script-backend.vercel.app/notes/editnote/${selectedNote._id}`,
+        {
+          method: "PUT",
+          headers: {
+            token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: updatedTitle,
+            description: updatedDescription, 
+          }),
+        }
+      );
 
       if (response.ok) {
         const updatedNotes = notes.map((note) =>
@@ -63,280 +91,334 @@ function ShowNote() {
             : note
         );
         setNotes(updatedNotes);
-        setShowEditModal(false); // Close modal after saving
+        setShowEditModal(false);
       } else {
         alert("Failed to update the note");
       }
     }
   };
 
-  // Handle deleting a note
-  const handleDelete = async (id) => {
-    await fetch(`https://secret-script-backend.vercel.app/notes/deletenote/${id}`, {
-      method: "DELETE",
-      headers: { token },
-    });
+  const handleDelete = async () => {
+    await fetch(
+      `https://secret-script-backend.vercel.app/notes/deletenote/${noteToDelete._id}`,
+      {
+        method: "DELETE",
+        headers: { token },
+      }
+    );
 
-    const response = await fetch("https://secret-script-backend.vercel.app/notes/getnotes", {
-      method: "GET",
-      headers: { token, "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      "https://secret-script-backend.vercel.app/notes/getnotes",
+      {
+        method: "GET",
+        headers: { token, "Content-Type": "application/json" },
+      }
+    );
     const data = await response.json();
     setNotes(data.notes);
+    setShowDeleteConfirm(false);
   };
 
-  // Handle navigating back to profile
+  const handleDeleteConfirm = (note) => {
+    setNoteToDelete(note);
+    setShowDeleteConfirm(true);
+  };
+
   const handleBack = () => {
     navigate("/userprofile");
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#212529", // Page background set to #212529
-        minHeight: "100vh",
-        padding: "2rem 1rem", // Extra padding for spacing
-        color: "white",
-        position: "relative", // For positioning elements outside the main container
-      }}
-    >
-      {/* Back Button */}
-      <button
-        className="btn btn-outline-light position-absolute"
-        style={{
-          top: "20px",
-          left: "20px", // Icon on the left
-          backgroundColor: "transparent",
-          border: "none",
-          color: "white",
-          fontSize: "1.5rem",
-          fontWeight: "bold", // Make it bold on larger screens
-        }}
-        onClick={handleBack}
-      >
-        <FaArrowLeft className="d-none d-md-block" /> {/* Visible on large screens */}
-        <span className="d-md-none" style={{ fontSize: "1.8rem" }}>
-          &#8592; {/* Back arrow for small screens */}
-        </span>
-      </button>
+    <Container>
+      <BackButton onClick={handleBack}>
+        <FaArrowLeft />
+      </BackButton>
 
-      {/* Heading and Subheading Section */}
-      <div
-        className="text-center"
-        style={{
-          marginTop: "80px", // Giving space at the top for heading
-        }}
-      >
-        <h1
-          className="display-4"
-          style={{
-            fontSize: "2.3rem", // Default font size
-            fontWeight:'450'
-          }}
-        >
-          Explore Your Creative Mind
-        </h1>
-        <p
-          style={{
-            fontSize: "1rem",
-            marginTop: "20px",
-            maxWidth: "80%", // Limit width for a cleaner layout
-            margin: "auto",
-          }}
-        >
-          Here are all the notes you've captured. Edit or delete them as you wish.
-        </p>
-      </div>
+      <Heading>Explore Your Creative Mind</Heading>
+      <Message>
+        Here are all the notes you've captured. Edit or delete them as you wish.
+      </Message>
 
-      {/* Main Content - Notes Section */}
-      <div
-        className="container mt-5"
-        style={{
-          width: "100%",
-          marginTop: "20px", // Space for heading and subheading
-        }}
-      >
-        {/* If no notes, show a simple message */}
+      <NotesSection>
         {notes.length === 0 ? (
-          <div
-            className="text-center"
-            style={{
-              fontSize: "1.1rem", // Adjusted font size to be consistent
-              color: "white", // Simple white text
-              padding: "20px",
-            }}
-          >
-            <p>Oops! no thoughts captured yet. Add some 😢</p>
-          </div>
+          <EmptyNotesMessage>
+            <p>
+              Oops! no thoughts captured yet. Add some
+              <br /> 😢
+            </p>
+          </EmptyNotesMessage>
         ) : (
-          // Notes Section - Directly display notes without container
-          <div className="row">
+          <Row>
             {notes.map((note) => (
-              <div key={note._id} className="col-12 col-md-4 mb-4">
-                <div
-                  className="card shadow-lg p-3 mb-5 rounded"
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#FFFFFF",
-                    border: "1px solid #444",
-                    transition: "all 0.3s ease", // Smooth hover effect
-                  }}
-                >
+              <Col key={note._id} md={4} className="mb-4">
+                <NoteCard>
                   <div className="card-body">
-                    <h5 className="card-title" style={{ fontSize: "1.2rem" }}>
-                      {note.title}
-                    </h5>
-                    <p className="card-text" style={{ fontSize: "1rem" }}>
-                      {note.description}
-                    </p>
-                    <div className="d-flex justify-content-between">
-                      <FaRegEdit
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "1.5rem",
-                          color: "#007bff", // Blue for Edit
-                        }}
-                        onClick={() => handleEdit(note)}
-                      />
-                      <MdDelete
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "1.5rem",
-                          color: "#dc3545", // Red for Delete
-                        }}
-                        onClick={() => handleDelete(note._id)}
-                      />
+                    <h5>{note.title}</h5>
+                    <p>{sliceDescription(note.description)}</p>
+                    <div className="d-flex m-2">
+                      <EditIcon onClick={() => handleEdit(note)}>
+                        <FaRegEdit />
+                      </EditIcon>
+                      <DeleteIcon onClick={() => handleDeleteConfirm(note)}>
+                        <MdDeleteOutline />
+                      </DeleteIcon>
                     </div>
                   </div>
-                </div>
-              </div>
+                </NoteCard>
+              </Col>
             ))}
-          </div>
+          </Row>
         )}
-      </div>
+      </NotesSection>
 
       {/* Edit Modal */}
-      <Modal
+      <EditModal
         show={showEditModal}
         onHide={() => setShowEditModal(false)}
         centered
-        size="lg" // Default large size
-        className="custom-modal" // Custom class for media queries
       >
-        <div style={{ boxShadow: "0 4px 15px rgba(255, 255, 255, 0.2)" }}>
-          {/* Modal Header with a white line after the heading */}
-          <Modal.Header
-            
-            style={{
-              borderBottom: "1px solid white", // White line below heading
-              backgroundColor: "#333", // Matching the dark theme
-              color: "white",
-              padding: "0.5rem", // Reduce padding to make it more compact
-            }}
-          >
-            <Modal.Title style={{ color: "white", fontSize: "1.2rem" }}>
-              Edit Note
-            </Modal.Title> {/* White color for modal heading */}
-            <FaTimes
-              onClick={() => setShowEditModal(false)}
-              style={{
-                color: "white", // White close icon
-                fontSize: "1.5rem", // Adjust size as necessary
-                cursor: "pointer", // Pointer cursor to indicate it's clickable
-                marginRight: "10px", // Space between icon and title
-              }}
-            />
-          </Modal.Header>
+        <ModalHeader>
+          <ModalTitle>Edit Note</ModalTitle>
+          <FaTimes onClick={() => setShowEditModal(false)} />
+        </ModalHeader>
 
-          <Modal.Body
-            style={{
-              backgroundColor: "#333", // Dark background for modal body
-              color: "white",
-              padding: "15px", // Reduced padding
-            }}
-          >
-            <Form>
-              <Form.Group className="mb-2">
-                <Form.Label style={{ fontSize: "0.9rem" }}>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={updatedTitle}
-                  onChange={(e) => setUpdatedTitle(e.target.value)}
-                  style={{
-                    backgroundColor: "#555", // Dark background for input fields
-                    color: "white",
-                    border: "1px solid #444",
-                    fontSize: "0.9rem", // Smaller font size for inputs
-                  }}
-                />
-              </Form.Group>
-              <Form.Group className="mb-2">
-                <Form.Label style={{ fontSize: "0.9rem" }}>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={updatedDescription}
-                  onChange={(e) => setUpdatedDescription(e.target.value)}
-                  style={{
-                    backgroundColor: "#555", // Dark background for input fields
-                    color: "white",
-                    border: "1px solid #444",
-                    fontSize: "0.9rem", // Smaller font size for inputs
-                  }}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
+        <ModalBody>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <Form>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={updatedTitle}
+                onChange={(e) => setUpdatedTitle(e.target.value)}
+                placeholder="Enter note title"
+              />
+            </Form.Group>
+            <br />
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={updatedDescription}
+                onChange={(e) => setUpdatedDescription(e.target.value)}
+                placeholder="Enter note description"
+              />
+            </Form.Group>
+          </Form>
+        </ModalBody>
 
-          {/* Modal Footer with Red "Close" button */}
-          <Modal.Footer
-            style={{
-              backgroundColor: "#333", // Match footer with body color
-              padding: "0.5rem", // Reduced padding
-              borderTop: "none", // Removed the line above buttons
-            }}
+        <ModalFooter>
+          <ButtonCancel type="button" onClick={() => setShowEditModal(false)}>
+            Cancel
+          </ButtonCancel>
+          <ButtonSave type="button" onClick={handleSaveEdit}>
+            Save Changes
+          </ButtonSave>
+        </ModalFooter>
+      </EditModal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        show={showDeleteConfirm}
+        onHide={() => setShowDeleteConfirm(false)}
+        centered
+      >
+        <ModalHeader>
+          <ModalTitle>Confirm Deletion</ModalTitle>
+          <FaTimes onClick={() => setShowDeleteConfirm(false)} />
+        </ModalHeader>
+
+        <ModalBody>
+          <p>Are you sure you want to delete this note?</p>
+        </ModalBody>
+
+        <ModalFooter>
+          <ButtonCancel
+            type="button"
+            onClick={() => setShowDeleteConfirm(false)}
           >
-            <Button
-              variant="secondary"
-              onClick={() => setShowEditModal(false)}
-              style={{
-                backgroundColor: "#dc3545", 
-                border: "none",
-              }}
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleSaveEdit}
-              style={{
-                backgroundColor: "#007bff", // Blue for Save Changes button
-                border: "none",
-              }}
-            >
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </div>
+            Cancel
+          </ButtonCancel>
+          <ButtonDanger type="button" onClick={handleDelete}>
+            Delete
+          </ButtonDanger>
+        </ModalFooter>
       </Modal>
-
-      {/* Add CSS to manage responsiveness */}
-      <style>{`
-        @media (max-width: 768px) {
-          .custom-modal .modal-dialog {
-            margin:auto;
-            max-width: 85%; /* Smaller modal on small screens */
-          }
-        }
-
-        @media (min-width: 769px) {
-          .custom-modal .modal-dialog {
-            max-width: 40%; /* Larger modal on large screens */
-          }
-        }
-      `}</style>
-    </div>
+    </Container>
   );
-}
+};
+
+// Styled Components
+const Container = styled.div`
+  background-color: #000;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  color: white;
+  position: relative;
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const Heading = styled.div`
+  text-align: center;
+  margin-top: 70px;
+  font-size: 3rem;
+  font-weight: 500;
+  color: transparent;
+  background-image: linear-gradient(45deg, #ffd700, #ff8c00);
+  text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.6);
+  -webkit-background-clip: text;
+  @media (max-width: 768px) {
+    margin-top: 60px;
+    font-size: 2rem;
+  }
+`;
+
+const Message = styled.div`
+  font-size: 1.5rem;
+  text-align: center;
+  color: #aeb6bf;
+  margin-top: 1.5rem;
+
+  @media (max-width: 768px) {
+    margin-top: 10px;
+    font-size: 1.1rem;
+  }
+`;
+
+const NotesSection = styled.div`
+  margin-top: 20px;
+`;
+
+const EmptyNotesMessage = styled.div`
+  text-align: center;
+  font-size: 1.1rem;
+  color: white;
+  padding: 20px;
+`;
+
+const NoteCard = styled.div`
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  transition: all 0.3s ease;
+  padding: 1rem;
+  margin: 3%;
+  border-radius: 5px;
+  height: 155px;
+  width: auto;
+  .card-body {
+    h5 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  &:hover {
+    background-color: #444;
+  }
+`;
+
+const EditModal = styled(Modal)`
+  .modal-content {
+    background-color: #333;
+    color: white;
+  }
+`;
+
+const ModalHeader = styled(Modal.Header)`
+  border-bottom: 1px solid white;
+  background-color: #333;
+  color: white;
+  padding: 0.5rem;
+`;
+
+const ModalTitle = styled(Modal.Title)`
+  font-size: 1.2rem;
+`;
+
+const ModalBody = styled(Modal.Body)`
+  background-color: #333;
+  color: white;
+  padding: 15px;
+`;
+
+const ModalFooter = styled(Modal.Footer)`
+  background-color: #333;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const ButtonCancel = styled.button`
+  background-color: #f1c40f;
+  color: white;
+  border: 0;
+  border-radius: 1vh;
+  font-size: 2vh;
+  padding: 0.8vh 2vh;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d4ac0d;
+  }
+`;
+
+const ButtonSave = styled(Button)`
+  background-image: linear-gradient(45deg, #e1166f, #ab0b51);
+  color: white;
+  border: 0;
+  border-radius: 1vh;
+  font-size: 2vh;
+  padding: 0.8vh 2vh;
+`;
+
+const ButtonDanger = styled(Button)`
+  background-image: linear-gradient(45deg, #e50914, #ba1e17);
+  border: 0;
+  border-radius: 1vh;
+  font-size: 2vh;
+`;
+
+const ErrorMessage = styled.div`
+  color: #dc3545;
+  font-size: 1rem;
+  margin-bottom: 10px;
+`;
+
+const EditIcon = styled.div`
+  cursor: pointer;
+  font-size: 1rem;
+  color: #ccc;
+
+  &:hover {
+    color: #fff;
+  }
+`;
+
+const DeleteIcon = styled.div`
+  cursor: pointer;
+  font-size: 1.12rem;
+  color: #ccc;
+  padding-left: 0.5rem;
+
+  &:hover {
+    color: #fff;
+  }
+`;
 
 export default ShowNote;

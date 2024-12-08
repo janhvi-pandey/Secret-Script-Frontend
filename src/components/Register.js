@@ -57,20 +57,21 @@ function Register() {
       <div
         className="bg-dark"
         style={{
-          padding: "15px", // Reduced padding for smaller height
+          padding: "15px",
           borderRadius: "10px",
           boxShadow: "0 4px 15px rgba(255, 255, 255, 0.2)",
           width: "90%",
           maxWidth: "350px",
-          marginBottom: "10px", // Reduced margin bottom
+          marginBottom: "10px",
         }}
       >
         <h2
           className=" text-center mb-3"
           style={{
-            fontSize: "1.4rem",  // Reduced font size
-            color:'#f1c40f'
-               // Tightened line height
+            fontSize: "1.4rem", 
+            backgroundImage: "linear-gradient(45deg, #ffd700, #ff8c00)",
+            color: "transparent",
+            WebkitBackgroundClip: "text",
           }}
         >
           Sign Up 
@@ -102,12 +103,12 @@ function Register() {
               color: "white",
               border: "none",
               fontSize: "0.85rem",
-              padding: "0.4rem", // Reduced padding for smaller size
+              padding: "0.4rem", 
             }}
           />
         </div>
 
-        {/* Email input with icon */}
+        
         <div className="input-group mb-2">
           <span
             className="input-group-text"
@@ -130,12 +131,12 @@ function Register() {
               color: "white",
               border: "none",
               fontSize: "0.85rem",
-              padding: "0.4rem", // Reduced padding for smaller size
+              padding: "0.4rem",
             }}
           />
         </div>
 
-        {/* Password input with icon */}
+    
         <div className="input-group mb-2">
           <span
             className="input-group-text"
@@ -158,12 +159,12 @@ function Register() {
               color: "white",
               border: "none",
               fontSize: "0.85rem",
-              padding: "0.4rem", // Reduced padding for smaller size
+              padding: "0.4rem",
             }}
           />
         </div>
 
-        {/* Register button */}
+   
         <button
           onClick={handlesubmit}
           className="btn w-100 mb-3"
@@ -172,7 +173,7 @@ function Register() {
             color: "#000",
             border: "none",
             fontSize: "0.9rem",
-            padding: "0.5rem", // Adjusted padding for smaller button
+            padding: "0.5rem", 
           }}
         >
           Sign Up
