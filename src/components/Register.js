@@ -87,7 +87,7 @@ function Register() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const googleUser = result.user;
-      console.log(googleUser);
+    
       const googleUserPayload = {
         name: googleUser.displayName,
         email: googleUser.email,
@@ -106,7 +106,7 @@ function Register() {
         }
       );
       const data = await response.json();
-      console.log(data);
+      
 
       if (data.alreadyexist) {
         alert("Email already exists 😉");
