@@ -6,6 +6,9 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 const ShowNote = () => {
+  const host="https://secret-script-backend.vercel.app";
+  // const host = "http://localhost:5005";
+  
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -25,13 +28,10 @@ const ShowNote = () => {
 
     const fetchNotes = async () => {
       try {
-        const response = await fetch(
-          "https://secret-script-backend.vercel.app/notes/getnotes",
-          {
-            method: "GET",
-            headers: { token, "Content-Type": "application/json" },
-          }
-        );
+        const response = await fetch(`${host}/notes/getnotes`, {
+          method: "GET",
+          headers: { token, "Content-Type": "application/json" },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch notes");
@@ -70,7 +70,7 @@ const ShowNote = () => {
 
     if (selectedNote) {
       const response = await fetch(
-        `https://secret-script-backend.vercel.app/notes/editnote/${selectedNote._id}`,
+        `${host}/notes/editnote/${selectedNote._id}`,
         {
           method: "PUT",
           headers: {
@@ -79,7 +79,7 @@ const ShowNote = () => {
           },
           body: JSON.stringify({
             title: updatedTitle,
-            description: updatedDescription, 
+            description: updatedDescription,
           }),
         }
       );
@@ -99,21 +99,15 @@ const ShowNote = () => {
   };
 
   const handleDelete = async () => {
-    await fetch(
-      `https://secret-script-backend.vercel.app/notes/deletenote/${noteToDelete._id}`,
-      {
-        method: "DELETE",
-        headers: { token },
-      }
-    );
+    await fetch(`${host}/notes/deletenote/${noteToDelete._id}`, {
+      method: "DELETE",
+      headers: { token },
+    });
 
-    const response = await fetch(
-      "https://secret-script-backend.vercel.app/notes/getnotes",
-      {
-        method: "GET",
-        headers: { token, "Content-Type": "application/json" },
-      }
-    );
+    const response = await fetch(`${host}/notes/getnotes`, {
+      method: "GET",
+      headers: { token, "Content-Type": "application/json" },
+    });
     const data = await response.json();
     setNotes(data.notes);
     setShowDeleteConfirm(false);

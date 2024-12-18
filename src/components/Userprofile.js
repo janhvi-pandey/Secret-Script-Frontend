@@ -159,13 +159,16 @@ const ActionButton = styled.button`
 `;
 
 const UserProfile = () => {
+  // const host = "http://localhost:5005";
+  const host = "https://secret-script-backend.vercel.app";
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  //  console.log(token);
   // Greeting based on the time of day
   useEffect(() => {
     const currentTime = new Date().getHours();
@@ -180,36 +183,22 @@ const UserProfile = () => {
 
   // Fetching user data from localStorage or API
   useEffect(() => {
-    // If token exists, fetch user data via API
-    if (token) {
-      const fetchUser = async () => {
-        try {
-          const response = await fetch(
-            "https://secret-script-backend.vercel.app/auth/userprofile",
-            {
-              method: "GET",
-              headers: { token, "Content-Type": "application/json" },
-            }
-          );
-          const data = await response.json();
-          setUser(data);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchUser();
-    } else {
-      // Check for user data in localStorage (Google login case)
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${host}/auth/userprofile`, {
+          method: "GET",
+          headers: { token, "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        console.log(data);
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
         setLoading(false);
-      } else {
-        navigate("/");
       }
-    }
+    };
+    fetchUser();
   }, [token, navigate]);
 
   // Timeout for loading state
@@ -223,7 +212,6 @@ const UserProfile = () => {
     setLoadingTimeout(false);
   }, [loading]);
 
- 
   const handleAddThoughts = () => navigate("/addnote");
   const handleShowNotes = () => navigate("/shownotes");
 

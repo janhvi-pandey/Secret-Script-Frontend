@@ -130,6 +130,8 @@ const SubmitButton = styled.button`
 `;
 
 function AddNote() {
+   const host="https://secret-script-backend.vercel.app";
+  //  const host="http://localhost:5005";
   const [note, setNote] = useState({
     title: "",
     description: "",
@@ -143,7 +145,7 @@ function AddNote() {
   const handleClick = async () => {
     try {
       const response = await fetch(
-        "https://secret-script-backend.vercel.app/notes/create",
+        `${host}/notes/create`,
         {
           method: "POST",
           headers: {

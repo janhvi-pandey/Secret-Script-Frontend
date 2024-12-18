@@ -28,6 +28,8 @@ const DividerText = styled.p`
 `;
 
 function Login() {
+  const host="https://secret-script-backend.vercel.app";
+  // const host="http://localhost:5005";
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -44,8 +46,7 @@ function Login() {
   };
 
   const handlesubmit = async () => {
-    const response = await fetch(
-      "https://secret-script-backend.vercel.app/auth/login",
+    const response = await fetch(`${host}/auth/login`,
       {
         method: "POST",
         headers: {
@@ -69,22 +70,42 @@ function Login() {
 
 
  // Handle Google Sign-In
-const handleGoogleSignIn = async () => {
+ const handleGoogleSignIn = async () => {
   try {
-    const result = await signInWithPopup(auth, googleProvider); 
-    const user = result.user;
-   
-    localStorage.setItem("user", JSON.stringify({
-      name: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL
-    }));
+    // Trigger Google Sign-In Popup
+    const result = await signInWithPopup(auth, googleProvider);
+    const googleUser = result.user;
+    // console.log(googleUser);
 
-    alert(`Welcome back, ${user.displayName}! We’ve missed you!`);
-    navigate("/userprofile");
+    // Extract necessary user details
+    const googleUserPayload = {
+      email: googleUser.email,
+      name: googleUser.displayName
+    };
+    // console.log(googleUserPayload);
+
+    // Send user data to backend
+    const response = await fetch(`${host}/auth/google-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: 'include',
+      body: JSON.stringify(googleUserPayload),
+    });
+
+    const data = await response.json();
+    // console.log(data);
+    
+    if (data.success) {
+      // Store the token and navigate to user profile
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/userprofile");
+    } else {
+      alert("Failed to sign in with Google.");
+    }
   } catch (error) {
     console.error("Google Sign-In error:", error.message);
-    alert("Failed to sign in with Google.");
+    alert("Google Sign-In failed.");
   }
 };
 
