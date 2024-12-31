@@ -1,15 +1,15 @@
-import React from 'react'
-import Landpage from './Landpage'
+// import React from 'react'
+// import Landpage from './Landpage'
 
 
-function Home() {
-  return (
-    <div>
+// function Home() {
+//   return (
+//     <div>
         
-        <Landpage/>
+//         <Landpage/>
    
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-export default Home
+// export default Home

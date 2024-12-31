@@ -28,8 +28,8 @@ const DividerText = styled.p`
 `;
 
 function Login() {
-  const host="https://secret-script-backend.vercel.app";
-  // const host="http://localhost:5005";
+  // const host="https://secret-script-backend.vercel.app";
+  const host="http://localhost:5005";
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -46,41 +46,49 @@ function Login() {
   };
 
   const handlesubmit = async () => {
-    const response = await fetch(`${host}/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      }
-    );
+    const response = await fetch(`${host}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+  
     const data = await response.json();
-    if (!data.alreadyexist) {
+    console.log(data);
+  
+    // Check if user doesn't exist or incorrect password
+    if (data.message === "User does not exist") {
       alert("User does not exist 🤔");
+    } else if (data.message === "Incorrect password") {
+      alert("Incorrect password 😒");
+    } else if (data.user) {
+      // Successful login
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/userprofile");
     } else {
-      if (data.user === null) {
-        alert("Password incorrect 😒");
-      } else {
-        localStorage.setItem("token", data.token);
-        navigate("/userprofile");
-      }
+      // Handle any unexpected cases
+      alert("Something went wrong. Please try again later.");
     }
   };
-
+  
 
  // Handle Google Sign-In
  const handleGoogleSignIn = async () => {
   try {
     // Trigger Google Sign-In Popup
     const result = await signInWithPopup(auth, googleProvider);
+    // console.log(result);
+    
     const googleUser = result.user;
     // console.log(googleUser);
 
     // Extract necessary user details
     const googleUserPayload = {
       email: googleUser.email,
-      name: googleUser.displayName
+      name: googleUser.displayName,
+      photoURL:googleUser.photoURL
     };
     // console.log(googleUserPayload);
 

@@ -1,89 +1,72 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { MdMenuBook, MdFormatListBulletedAdd } from "react-icons/md";
 import { useNavigate } from "react-router";
-
-const pulse = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-`;
-
-const DotLoaderContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 80px;
-`;
-
-const Dot = styled.div`
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  animation: ${pulse} 1.5s infinite ease-in-out;
-
-  &:nth-child(1) {
-    background-color: #ff6347;
-    animation-delay: 0s;
-  }
-  &:nth-child(2) {
-    background-color: #1e90ff;
-    animation-delay: 0.3s;
-  }
-  &:nth-child(3) {
-    background-color: #32cd32;
-    animation-delay: 0.6s;
-  }
-`;
+import Navbar from "./Navbar";
+import defaultImg from "../images/def2small.png";
+import LoadingDots from "./LoadingDots";
 
 const Container = styled.div`
   background-color: black;
   min-height: 100vh;
   color: #fff;
+  padding-top: 60px; /* Add space for the fixed navbar */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
+`;
+
+const Greetuser = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Adjust gap as needed */
+  width: 100%; /* Ensure it spans the container width */
+  text-align: center;
+  margin: 1rem; /* Add some spacing below */
+   @media (max-width: 768px) {
+    font-size: 1.8rem; 
+     display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:10px;
+  margin-bottom:0.5rem;
+  }
+
 `;
 
 const Greeting = styled.h1`
-  font-size: 3rem;
+  font-size: 2.5rem; /* Adjust size to balance with Username */
   font-weight: bold;
   color: #fff;
-  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.8rem; /* Adjust for smaller screens */
   }
 `;
 
 const Username = styled.h2`
-  font-size: 3rem;
+  font-size: 2.5rem; /* Match with Greeting for balance */
   font-weight: 700;
   background-image: linear-gradient(45deg, #ffd700, #ff8c00);
   text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.6);
   -webkit-background-clip: text;
   color: transparent;
-  margin: 1rem 0;
 
   @media (max-width: 768px) {
-    font-size: 2.2rem;
-    margin-top: 0;
+    font-size: 1.8rem; /* Adjust for smaller screens */
   }
 `;
+
 
 const WelcomeMessage = styled.div`
   font-size: 1.5rem;
   color: #f4f6f6;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 
   @media (max-width: 768px) {
     margin-top: 10px;
@@ -107,6 +90,7 @@ const ActionContainer = styled.div`
   justify-content: space-evenly;
   width: 35vw;
   margin-top: 1.5rem;
+  gap:1rem;
 
   @media (max-width: 768px) {
     width: 70vw;
@@ -157,10 +141,17 @@ const ActionButton = styled.button`
     }
   }
 `;
+const ProfilePicture = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #ffd700;
+`;
 
 const UserProfile = () => {
-  // const host = "http://localhost:5005";
-  const host = "https://secret-script-backend.vercel.app";
+  const host = "http://localhost:5005";
+  // const host = "https://secret-script-backend.vercel.app";
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -174,10 +165,13 @@ const UserProfile = () => {
     const currentTime = new Date().getHours();
     if (currentTime < 12) {
       setGreeting("Good Morning!");
-    } else if (currentTime < 18) {
+    } else if (currentTime < 17) {
       setGreeting("Good Afternoon!");
-    } else {
+    } else if(currentTime<21) {
       setGreeting("Good Evening!");
+    }
+    else{
+      setGreeting("Good Night!");
     }
   }, []);
 
@@ -190,6 +184,7 @@ const UserProfile = () => {
           headers: { token, "Content-Type": "application/json" },
         });
         const data = await response.json();
+        // console.log(data);
         
         setUser(data);
       } catch (error) {
@@ -199,7 +194,8 @@ const UserProfile = () => {
       }
     };
     fetchUser();
-  }, [token, navigate]);
+     // eslint-disable-next-line 
+  }, []);
 
   // Timeout for loading state
   useEffect(() => {
@@ -214,6 +210,7 @@ const UserProfile = () => {
 
   const handleAddThoughts = () => navigate("/addnote");
   const handleShowNotes = () => navigate("/shownotes");
+  // const handleAddImage = () => navigate("/imageupload");
 
   if (loading) {
     return (
@@ -224,11 +221,7 @@ const UserProfile = () => {
             network connection.
           </p>
         ) : (
-          <DotLoaderContainer>
-            <Dot />
-            <Dot />
-            <Dot />
-          </DotLoaderContainer>
+          <LoadingDots />
         )}
       </Container>
     );
@@ -236,8 +229,12 @@ const UserProfile = () => {
 
   return (
     <Container>
-      <Greeting>{greeting}</Greeting>
-      <Username>{user?.name || "Guest"}</Username>
+      <Navbar/>
+    
+      {user?.photoURL && <ProfilePicture src={user?.photoURL} alt={user.name} onError={(e) => { e.target.src = defaultImg; }}/>}
+      <Greetuser><Greeting>{greeting}</Greeting>
+      <Username>{user?.name || "Guest"}</Username></Greetuser>
+      
       <WelcomeMessage>
         Welcome back! Your thoughts await.
         <Tagline>Capture your ideas and reflect on your past notes.</Tagline>
@@ -251,6 +248,10 @@ const UserProfile = () => {
           <MdFormatListBulletedAdd />
           <span>Add Thoughts</span>
         </ActionButton>
+        {/* <ActionButton onClick={handleAddImage}>
+          <MdImage />
+          <span>Add image</span>
+        </ActionButton> */}
       </ActionContainer>
     </Container>
   );
