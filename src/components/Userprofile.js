@@ -142,8 +142,8 @@ const ActionButton = styled.button`
   }
 `;
 const ProfilePicture = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 165px;
+  height: 160px;
   border-radius: 50%;
   margin-bottom: 1rem;
   border: 3px solid #ffd700;

@@ -57,12 +57,12 @@ const PencilIcon = styled(FaPen)`
   right: 4px;
   font-size: 1.5rem;
   color: white;
-  background-color: #d4ac0d;
+  background-color:rgb(220, 137, 20);
   padding: 5px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
-    background-color: rgb(205, 154, 13);
+    background-color: rgb(168, 57, 12);
   }
 `;
 
@@ -242,7 +242,7 @@ const EditProfile = () => {
           style={{
             padding: "10px 20px",
             borderRadius: "5px",
-            backgroundColor: "#d4ac0d",
+            backgroundColor: "rgb(206, 99, 6)",
             color: "#fff",
             cursor: "pointer",
           }}

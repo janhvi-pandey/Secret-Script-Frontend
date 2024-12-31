@@ -4,7 +4,7 @@ import YourProfile from "./YourProfile";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import Navbar from "../Navbar";
-
+import { FaUser , FaUserEdit, FaLock } from "react-icons/fa";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +31,6 @@ const Container = styled.div`
 // Sidebar Section
 const Sidebar = styled.div`
   flex: 2; /* Use flex ratios for precise 20% width */
-//   width:20%;
   height: 100%;
   background-color: #282828;
   padding: 20px;
@@ -54,14 +53,24 @@ const SidebarItem = styled.div`
   border-radius: 5px;
   font-size: 18px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
 
   &:hover {
      background: rgba(114, 113, 112, 0.2);
     transform: scale(1.05);
-    
   }
+`;
 
+// Icon in the Sidebar Item
+const Icon = styled.div`
+  font-size: 18px;  
+  margin-right: 10px; 
+`;
+const EditIcon = styled.div`
+  font-size: 22px;  
+  margin-right: 10px; 
 `;
 
 // Content Area Section
@@ -86,12 +95,16 @@ const Heading = styled.h2`
   text-align: center;
   font-size: 32px;
   font-weight: 700;
-    color: transparent;
+  color: transparent;
   background-image: linear-gradient(45deg, #ffd700, #ff8c00);
   text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.6);
   -webkit-background-clip: text;
-  margin-top: 70px;
+  margin-top: 80px;
   margin-bottom: 10px;
+  
+  @media (max-width: 768px) {
+    margin-top: 100px;
+  }
 `;
 
 // ManageProfile Component
@@ -110,13 +123,13 @@ const ManageProfile = () => {
       <Container>
         <Sidebar>
           <SidebarItem onClick={() => setActiveSection("Your Profile")}>
-            Your Profile
+            <Icon><FaUser /></Icon> Your Profile
           </SidebarItem>
           <SidebarItem onClick={() => setActiveSection("Edit Profile")}>
-            Edit Profile
+            <EditIcon><FaUserEdit /></EditIcon> Edit Profile
           </SidebarItem>
           <SidebarItem onClick={() => setActiveSection("Change Password")}>
-            Change Password
+            <Icon><FaLock /></Icon> Change Password
           </SidebarItem>
         </Sidebar>
 

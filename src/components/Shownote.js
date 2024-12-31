@@ -373,7 +373,7 @@ const ButtonCancel = styled.button`
 `;
 
 const ButtonSave = styled(Button)`
-  background-image: linear-gradient(45deg,rgb(232, 104, 45), #ab0b51);
+  background-image: linear-gradient(45deg,rgb(213, 5, 16),rgb(201, 73, 22));
   color: white;
   border: 0;
   border-radius: 1vh;
@@ -382,7 +382,7 @@ const ButtonSave = styled(Button)`
 `;
 
 const ButtonDanger = styled(Button)`
-  background-image: linear-gradient(45deg, #e50914, #ba1e17);
+  background-image: linear-gradient(45deg, #e50914,rgb(212, 88, 22));
   border: 0;
   border-radius: 1vh;
   font-size: 2vh;

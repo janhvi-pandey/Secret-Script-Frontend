@@ -8,7 +8,9 @@ const NavbarContainer = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 80px;
+ 
+
   background-color: #000; /* Dark background for the navbar */
   color: #fff;
   display: flex;
@@ -21,12 +23,13 @@ const NavbarContainer = styled.div`
 
 const ProfileWrapper = styled.div`
   position: relative;
-  display: inline-block; /* Ensure proper positioning for dropdown */
+  display: inline-block; 
 `;
 
 const SmallProfilePicture = styled.img`
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
+ 
   border-radius: 50%;
   border: 2px solid rgb(246, 159, 77); /* Optional border styling */
   cursor: pointer;
