@@ -6,8 +6,8 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 const ShowNote = () => {
-  // const host="https://secret-script-backend.vercel.app";
-  const host = "http://localhost:5005";
+  const host="https://secret-script-backend.vercel.app";
+  // const host = "http://localhost:5005";
   
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);

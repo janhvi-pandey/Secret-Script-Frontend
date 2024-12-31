@@ -28,8 +28,8 @@ const DividerText = styled.p`
 `;
 
 function Login() {
-  // const host="https://secret-script-backend.vercel.app";
-  const host="http://localhost:5005";
+  const host="https://secret-script-backend.vercel.app";
+  // const host="http://localhost:5005";
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",

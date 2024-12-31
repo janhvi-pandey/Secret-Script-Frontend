@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import userContext from "../context/user/UserContext";
-import defaultImg from "../../images/def2small.png"; // Default image for fallback
-import Loading from "../LoadingDots"; // Import your Loading component
-import { FaPen } from "react-icons/fa"; // Pencil icon for editing
+import defaultImg from "../../images/def2small.png"; 
+import Loading from "../LoadingDots"; 
+import { FaPen } from "react-icons/fa"; 
 
 // Styled Components
 const ProfileContainer = styled.div`
@@ -146,7 +146,7 @@ const EditProfile = () => {
   }, []);
 
   const handleError = (e) => {
-    e.target.src = defaultImg; // Fallback to default image on error
+    e.target.src = defaultImg; 
   };
 
   const handleSave = async () => {

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 function UploadImage() {
-  const host = "http://localhost:5005";
+  // const host = "http://localhost:5005";
+  const host="https://secret-script-backend.vercel.app";
+
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");

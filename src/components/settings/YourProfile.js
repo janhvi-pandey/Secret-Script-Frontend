@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import userContext from "../context/user/UserContext";
-import defaultImg from "../../images/def2small.png"; // Your default image
-import Loading from "../LoadingDots"; // Import your Loading component here
+import defaultImg from "../../images/def2small.png"; 
+import Loading from "../LoadingDots"; 
 
 const ProfileContainer = styled.div`
    padding: 50px 0;
@@ -111,7 +111,7 @@ const YourProfile = () => {
   }, []);
 
   const handleError = (e) => {
-    e.target.src = defaultImg; // Fallback to default image on error
+    e.target.src = defaultImg;
   };
 
   if (loading) {

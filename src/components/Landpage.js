@@ -4,8 +4,8 @@ import { FaLock, FaUserShield, FaBolt } from "react-icons/fa";
 
 function Landpage() {
   useEffect(() => {
-    localStorage.removeItem("token");  // Remove the token if it's found
-    localStorage.removeItem("user");   // Remove the user data if it's found
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");  
   }, []);
   
   return (

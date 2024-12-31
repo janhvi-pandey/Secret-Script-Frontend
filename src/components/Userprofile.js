@@ -150,8 +150,8 @@ const ProfilePicture = styled.img`
 `;
 
 const UserProfile = () => {
-  const host = "http://localhost:5005";
-  // const host = "https://secret-script-backend.vercel.app";
+  // const host = "http://localhost:5005";
+  const host = "https://secret-script-backend.vercel.app";
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

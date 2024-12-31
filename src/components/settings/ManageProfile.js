@@ -5,7 +5,7 @@ import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import Navbar from "../Navbar";
 
-// Main Container - Centered with Dark Theme
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
