@@ -373,7 +373,7 @@ const ButtonCancel = styled.button`
 `;
 
 const ButtonSave = styled(Button)`
-  background-image: linear-gradient(45deg, #e1166f, #ab0b51);
+  background-image: linear-gradient(45deg,rgb(232, 104, 45), #ab0b51);
   color: white;
   border: 0;
   border-radius: 1vh;

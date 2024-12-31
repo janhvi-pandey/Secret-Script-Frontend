@@ -69,8 +69,10 @@ const DropdownItem = styled.div`
 `;
 
 const Navbar = () => {
-  const host = "http://localhost:5005";
+  // const host = "http://localhost:5005";
 
+
+  const host = "https://secret-script-backend.vercel.app";
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
