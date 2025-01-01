@@ -90,7 +90,7 @@ const Navbar = () => {
           headers: { token, "Content-Type": "application/json" },
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         
         setUser(data);
       } catch (error) {

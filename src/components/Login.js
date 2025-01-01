@@ -56,7 +56,7 @@ function Login() {
     });
   
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
   
     // Check if user doesn't exist or incorrect password
     if (data.message === "User does not exist") {
