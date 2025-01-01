@@ -144,6 +144,7 @@ const ActionButton = styled.button`
 const ProfilePicture = styled.img`
   width: 165px;
   height: 160px;
+    object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1rem;
   border: 3px solid #ffd700;

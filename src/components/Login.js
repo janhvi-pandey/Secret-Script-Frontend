@@ -34,11 +34,12 @@ function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    authmethod:"manual",
   });
 
   useEffect(() => {
-    localStorage.removeItem("token");  // Remove the token if it's found
-    localStorage.removeItem("user");   // Remove the user data if it's found
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("user");   
   }, []);
 
   const handlechange = (e) => {
@@ -83,12 +84,13 @@ function Login() {
     
     const googleUser = result.user;
     // console.log(googleUser);
-
+    const authmethod="google";
     // Extract necessary user details
     const googleUserPayload = {
       email: googleUser.email,
       name: googleUser.displayName,
-      photoURL:googleUser.photoURL
+      photoURL:googleUser.photoURL,
+      authmethod: authmethod
     };
     // console.log(googleUserPayload);
 

@@ -4,19 +4,20 @@ import YourProfile from "./YourProfile";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import Navbar from "../Navbar";
-import { FaUser , FaUserEdit, FaLock } from "react-icons/fa";
+import { IoLockOpen } from "react-icons/io5";
+import { FaUser, FaUserEdit } from "react-icons/fa";
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* Align items to the left within the container */
+  justify-content: flex-start;
   align-items: center;
   width: 60vw;
   height: 70vh;
   background-color: #181818;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  margin: auto; /* Automatically center the container horizontally and vertically */
+  margin: auto;
   color: #fff;
   position: relative;
 
@@ -28,9 +29,8 @@ const Container = styled.div`
   }
 `;
 
-// Sidebar Section
 const Sidebar = styled.div`
-  flex: 2; /* Use flex ratios for precise 20% width */
+  flex: 2;
   height: 100%;
   background-color: #282828;
   padding: 20px;
@@ -39,43 +39,79 @@ const Sidebar = styled.div`
   transition: all 0.3s ease;
 
   @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    border-radius: 10px;
     width: 100%;
     height: auto;
     margin-bottom: 20px;
   }
 `;
 
-// Sidebar Item (Menu Options)
 const SidebarItem = styled.div`
   margin: 15px 0;
   padding: 12px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 570;
   display: flex;
   align-items: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
 
   &:hover {
-     background: rgba(114, 113, 112, 0.2);
+    background: rgba(114, 113, 112, 0.2);
     transform: scale(1.05);
+  }
+
+  &.active {
+    background-color: rgba(255, 165, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    font-size: 12px;
+    margin: 0;
+    padding: 10px;
   }
 `;
 
-// Icon in the Sidebar Item
 const Icon = styled.div`
-  font-size: 18px;  
-  margin-right: 10px; 
-`;
-const EditIcon = styled.div`
-  font-size: 22px;  
-  margin-right: 10px; 
+  font-size: 16px;
+  margin-right: 10px;
+  margin-bottom:6px;
+
+  @media (max-width: 768px) {
+    margin: 0;
+    font-size: 24px;
+  }
 `;
 
-// Content Area Section
+
+const EditIcon = styled.div`
+  font-size: 20px;
+  margin-right: 10px;
+ margin-bottom:7px;
+  @media (max-width: 768px) {
+    margin: 0;
+    font-size: 26px;
+  }
+`;
+
+const PasswordIcon = styled.div`
+  font-size: 18px;
+  margin-right: 10px;
+ margin-bottom:6.5px;
+  @media (max-width: 768px) {
+    margin: 0;
+    font-size: 24.5px;
+  }
+`;
+
 const ContentArea = styled.div`
-  flex: 6; /* Use flex ratios for precise 60% width */
+  flex: 6;
   height: 100%;
   padding: 20px;
   background-color: #222;
@@ -87,10 +123,10 @@ const ContentArea = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     border-left: none;
+    padding: 15px;
   }
 `;
 
-// Heading (Main Title)
 const Heading = styled.h2`
   text-align: center;
   font-size: 32px;
@@ -101,18 +137,26 @@ const Heading = styled.h2`
   -webkit-background-clip: text;
   margin-top: 80px;
   margin-bottom: 10px;
-  
+
   @media (max-width: 768px) {
     margin-top: 100px;
+    font-size: 24px;
   }
 `;
 
-// ManageProfile Component
 const ManageProfile = () => {
   const [activeSection, setActiveSection] = useState("Your Profile");
 
   return (
-    <div style={{ backgroundColor: "#000", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <div
+      style={{
+        backgroundColor: "#000",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       {/* Navbar */}
       <Navbar />
 
@@ -122,14 +166,32 @@ const ManageProfile = () => {
       {/* Main Container */}
       <Container>
         <Sidebar>
-          <SidebarItem onClick={() => setActiveSection("Your Profile")}>
-            <Icon><FaUser /></Icon> Your Profile
+          <SidebarItem
+            className={activeSection === "Your Profile" ? "active" : ""}
+            onClick={() => setActiveSection("Your Profile")}
+          >
+            <Icon>
+              <FaUser />
+            </Icon>
+            <span>Your Profile</span>
           </SidebarItem>
-          <SidebarItem onClick={() => setActiveSection("Edit Profile")}>
-            <EditIcon><FaUserEdit /></EditIcon> Edit Profile
+          <SidebarItem
+            className={activeSection === "Edit Profile" ? "active" : ""}
+            onClick={() => setActiveSection("Edit Profile")}
+          >
+            <EditIcon>
+              <FaUserEdit />
+            </EditIcon>
+            <span>Edit Profile</span>
           </SidebarItem>
-          <SidebarItem onClick={() => setActiveSection("Change Password")}>
-            <Icon><FaLock /></Icon> Change Password
+          <SidebarItem
+            className={activeSection === "Change Password" ? "active" : ""}
+            onClick={() => setActiveSection("Change Password")}
+          >
+            <PasswordIcon>
+              <IoLockOpen />
+            </PasswordIcon>
+            <span>Change Password</span>
           </SidebarItem>
         </Sidebar>
 

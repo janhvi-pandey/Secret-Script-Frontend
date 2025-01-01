@@ -29,7 +29,7 @@ const ProfileWrapper = styled.div`
 const SmallProfilePicture = styled.img`
   width: 50px;
   height: 50px;
- 
+   object-fit: cover;
   border-radius: 50%;
   border: 2px solid rgb(246, 159, 77); /* Optional border styling */
   cursor: pointer;
@@ -73,9 +73,8 @@ const DropdownItem = styled.div`
 
 const Navbar = () => {
   // const host = "http://localhost:5005";
-
-
   const host = "https://secret-script-backend.vercel.app";
+
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
