@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaBolt,
@@ -16,10 +16,39 @@ import { SiCloudinary } from "react-icons/si";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 
 function Landpage() {
+  const host="https://secret-script-backend.vercel.app";
+  // const host="http://localhost:5005";
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalNotes, setTotalNotes] = useState(0);
+
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-  }, []);
+  
+   
+    const fetchData = async () => {
+      try {
+        // Fetch total users
+        const userResponse = await fetch(`${host}/auth/totalusers`);
+        const userData = await userResponse.json();
+        setTotalUsers(userData.totalusers);
+
+        // Fetch total notes
+        const notesResponse = await fetch(`${host}/notes/totalnotes`);
+        const notesData = await notesResponse.json();
+        setTotalNotes(notesData.totalnotes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line
+  },[host]);
+
+// useEffect(() => {
+//   console.log("Updated totalUsers:", totalUsers); // Log after state update
+// }, [totalUsers]);
 
   return (
     <div style={{ backgroundColor: "#000", color: "#fff", minHeight: "100vh" }}>
@@ -358,7 +387,7 @@ function Landpage() {
                 <FaUsers />
               </div>
               <h5 className="card-title">Users</h5>
-              <p>30+ Users</p>
+    <p>{totalUsers}+ Users</p>
             </div>
           </div>
 
@@ -378,7 +407,7 @@ function Landpage() {
                 <FaChartLine />
               </div>
               <h5 className="card-title">Notes Added</h5>
-              <p>50+ Notes Secured</p>
+              <p>{totalNotes}+ Notes</p>
             </div>
           </div>
 
