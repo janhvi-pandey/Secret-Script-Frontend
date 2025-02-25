@@ -6,6 +6,8 @@ import Navbar from "./Navbar";
 import defaultImg from "../images/def2small.png";
 import LoadingDots from "./LoadingDots";
 
+
+
 const Container = styled.div`
   background-color: black;
   min-height: 100vh;
@@ -161,6 +163,15 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   //  console.log(token);
+
+  // Redirect to home if token is missing
+  useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      navigate("/"); 
+    }
+  }, [navigate]);
+
   // Greeting based on the time of day
   useEffect(() => {
     const currentTime = new Date().getHours();

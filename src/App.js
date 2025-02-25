@@ -8,11 +8,13 @@ import Register from './components/Register';
 import Landpage from './components/Landpage';
 import AddNote from './components/AddNote';
 import Shownote from './components/Shownote';
+// import first from './components/first';
 import ManageProfile from './components/settings/ManageProfile';
 import { UserState } from './components/context/user/UserState';
 // import UploadImage from './components/UploadImage';
 function App() {
   return (
+    
     <>
     <Router>
       <UserState>
